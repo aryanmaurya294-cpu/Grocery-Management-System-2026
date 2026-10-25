@@ -1,0 +1,95 @@
+﻿
+@{
+    ViewBag.Title = "addcategory";
+    Layout = "~/Views/Shared/_Admin_Layout.cshtml";
+}
+
+@TempData["msg"]
+<div class="container-fluid">
+    <div class="row py-1">
+        <div class="col-sm-10 mx-auto">
+            <div class="fs-3 text-center">
+                Basket <b class="text-color1">Categories</b> <br />
+                <hr  class="mx-auto w-25"/>
+            </div>
+
+            <div class="row py-3">
+                <div class="col-sm-6 px-5">
+                    @if (TempData["msg"] != null)
+                    {
+                        <div class="alert alert-warning alert-dismissible fade show" role="alert">
+                            <strong>@TempData["msg"]</strong>
+                            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                    }
+                    <form method="post" enctype="multipart/form-data">
+                        <div class="shadow-lg mx-auto rounded-3 p-3">
+                            <div class="mb-2"> <span style="font-size:13px; ">Fill the details before to create or update a category .</span> </div>
+                            <span><b>Category Name*</b></span>
+                            <input type="text" class="form-control mb-3" name="cname" required placeholder="Enter Category Name" />
+                            <span><b>Category Picture*</b></span>
+                            <input type="file" class="form-control mb-3" name="cpic" required placeholder="Enter Category Name" />
+                            <button class="btn bg-color1 " type="submit">Add Now</button>
+                        </div>
+                    </form>
+                </div>
+                <div class="col-sm-6 p-2">
+                    <div class="shadow-lg mx-auto p-3 ">
+                     
+                        <table class="table">
+                            <thead>
+                                <tr class="bg-info">
+                                    <th>SN.</th>
+                                    <th>Name</th>
+                                    <th> Picture</th>
+                                   
+
+                                    <th>Action</th>
+
+
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @if (ViewBag.dt != null)
+                                {
+                                    foreach (var row in ViewBag.dt.Rows)
+                                    {
+
+                                    
+                                    <tr>
+                                        <td>@row["id"] </td>
+                                        <td>@row["name"]</td>
+                                        <td>
+                                            <div><img src="~/Content/catpic/@row["icon"]" height="40" ; width="40" /></div>
+                                        </td>
+                                      
+
+                                        <td>
+                                            <a class="badge bg-color1">
+                                                <i class="fa-solid fa-pencil text-dark"></i>
+                                            </a>
+                                            <a class="badge bg-color1 text-dark">
+                                                <i class="fa-solid fa-trash"></i>
+                                            </a>
+
+                                        </td>
+
+                                    </tr>
+
+                                }
+                                }
+
+                            </tbody>
+
+
+
+                        </table>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>

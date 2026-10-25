@@ -1,0 +1,210 @@
+﻿@{
+    ViewBag.Title = "addproduct";
+    Layout = "~/Views/Shared/_Admin_Layout.cshtml";
+}
+
+<div class="container-fluid">
+    <div class="row py-1">
+        <div class="col-sm-10 mx-auto">
+
+            <div class="fs-3 text-center">
+                Basket <b class="text-color1">Products</b>
+                <br />
+                <hr class="mx-auto w-25" />
+            </div>
+
+            <div class="row py-3">
+                <div class="col-sm-12 px-5">
+
+                    @if (TempData["msg"] != null)
+                    {
+                        <div class="alert alert-warning alert-dismissible fade show"
+                             role="alert">
+                            <strong>@TempData["msg"]</strong>
+                            <button type="button" class="close"
+                                    data-dismiss="alert" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                    }
+
+                    @* ADD PRODUCT FORM *@
+                    <form method="post"
+                          action="@Url.Action("addproduct", "Admin")"
+                          enctype="multipart/form-data">
+
+                        @Html.AntiForgeryToken()
+
+                        <div class="row shadow-lg mx-auto rounded-3 p-3">
+
+                            <div class="mb-2">
+                                <span style="font-size:13px;">
+                                    Fill the details to add a product.
+                                </span>
+                            </div>
+
+                            <div class="col-sm-6">
+                                <b>Product Name*</b>
+                                <input type="text" class="form-control mb-3"
+                                       name="name" required
+                                       placeholder="Enter Product Name" />
+                            </div>
+
+                            <div class="col-sm-6">
+                                <b>Choose Category*</b>
+                                <select class="form-control mb-3"
+                                        name="category" required>
+                                    @foreach (var cat in ViewBag.dt.Rows)
+                                    {
+                                        <option value="@cat["id"]">
+                                            @cat["name"]
+                                        </option>
+                                    }
+                                </select>
+                            </div>
+
+                            <div class="col-sm-4">
+                                <b>MRP*</b>
+                                <input type="number" step="0.01"
+                                       class="form-control mb-3"
+                                       name="mrp" required
+                                       placeholder="Enter MRP" />
+                            </div>
+
+                            <div class="col-sm-4">
+                                <b>Discount*</b>
+                                <input type="number" step="0.01"
+                                       class="form-control mb-3"
+                                       name="discount" required
+                                       placeholder="Enter Discount" />
+                            </div>
+
+                            <div class="col-sm-4">
+                                <b>Sale Rate*</b>
+                                <input type="number" step="0.01"
+                                       class="form-control mb-3"
+                                       name="salerate" required
+                                       placeholder="Enter Sale Rate" />
+                            </div>
+
+                            <div class="col-sm-6">
+                                <b>Product Brand*</b>
+                                <input type="text" class="form-control mb-3"
+                                       name="brand" required
+                                       placeholder="Enter Product Brand" />
+                            </div>
+
+                            <div class="col-sm-6">
+                                <b>Product Quantity*</b>
+                                <input type="text" class="form-control mb-3"
+                                       name="quantity" required
+                                       placeholder="1kg, 1ltr, 100g" />
+                            </div>
+
+                            <div class="col-sm-6">
+                                <b>Product Picture*</b>
+                                <input type="file" class="form-control mb-3"
+                                       name="pic" required
+                                       accept="image/*" />
+                            </div>
+
+                            <div class="col-sm-6">
+                                <b>Product Expiry Date*</b>
+                                <input type="date" class="form-control mb-3"
+                                       name="expiry" required />
+                            </div>
+
+                            <div class="col-sm-12">
+                                <b>Product Details*</b>
+                                <textarea class="form-control"
+                                          name="detail" required></textarea>
+                            </div>
+
+                            <div class="col-sm-6 mt-3">
+                                <button class="btn bg-color1"
+                                        type="submit">
+                                    Add Now
+                                </button>
+                            </div>
+
+                        </div>
+                    </form>
+                </div>
+
+                @* PRODUCT LIST *@
+                <div class="col-sm-12 p-3">
+                    <div class="shadow-lg mx-auto p-3"
+                         style="overflow-x:auto;">
+
+                        <table class="table table-bordered table-hover">
+                            <thead>
+                                <tr class="bg-info">
+                                    <th>SN.</th>
+                                    <th>Product Name</th>
+                                    <th>MRP</th>
+                                    <th>Discount</th>
+                                    <th>Sale Rate</th>
+                                    <th>Brand</th>
+                                    <th>Quantity</th>
+                                    <th>InStock</th>
+                                    <th>Added On</th>
+                                    <th>Expiry Date</th>
+                                    <th>Product Image</th>
+                                    <th>Action</th>
+                                </tr>
+                            </thead>
+
+                            <tbody>
+                                @foreach (var row in ViewBag.p.Rows)
+                                {
+                                    <tr>
+                                        <td>@row["id"]</td>
+                                        <td>@row["name"]</td>
+                                        <td>@row["mrp"]</td>
+                                        <td>@row["discount"]</td>
+                                        <td>@row["salerate"]</td>
+                                        <td>@row["brand"]</td>
+                                        <td>@row["quantity"]</td>
+                                        <td>@row["instock"]</td>
+                                        <td>@row["added_on"]</td>
+                                        <td>@row["expiry_date"]</td>
+
+                                        <td>
+                                            <img src="@Url.Content(
+                                                "~/Content/productpic/" +
+                                                Convert.ToString(row["image"]))"
+                                                 height="50" width="50"
+                                                 alt="Product Image" />
+                                        </td>
+
+                                        <td>
+                                            @using (Html.BeginForm(
+                                                "DeleteProduct",
+                                                "Admin",
+                                                FormMethod.Post))
+                                            {
+                                                @Html.AntiForgeryToken()
+
+                                                <input type="hidden"
+                                                       name="id"
+                                                       value="@row["id"]" />
+
+                                                <button type="submit"
+                                                        class="btn btn-danger btn-sm"
+                                                        onclick="return confirm('Are you sure you want to delete this product?');">
+                                                    Delete
+                                                </button>
+                                            }
+                                        </td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>

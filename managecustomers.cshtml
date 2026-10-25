@@ -1,0 +1,61 @@
+﻿
+@{
+    ViewBag.Title = "managecustomers";
+    Layout = "~/Views/Shared/_Admin_Layout.cshtml";
+}
+
+<div class="container-fluid">
+    <div class="row py-3">
+        <div class="col-sm-10 mx-auto">
+            <div class="fs-3 text-center">
+                Manage <b class="text-color1">Customers</b>
+                <hr class="w-25 mx-auto"/>
+            </div>
+            <table class="table">
+                <tr>
+                    <th>SR NO</th>
+                    <th>Name</th>
+                    <th>Mobile No</th>
+                    <th>Gender</th>
+                    <th>Email Id</th>
+                    <th>Added On</th>
+                    <th>Status</th>
+                    <th>Action</th>
+              
+                </tr>
+                @{int i = 1;}
+
+                @foreach(var row in ViewBag.dt.Rows)
+                {
+                <tr>
+                    <td>@i</td>
+                    <td>@row["name"]</td>
+                    <td>@row["mobile"]</td>
+                    <td>@row["gender"]</td>
+                    <td>@row["email"]</td>
+                    <td>@row["added_on"]</td>
+                     
+                    <td>
+                        <div class="form-check form-switch">
+                            <input class="form-check-input" type="checkbox" role="switch" id="switchCheckChecked" checked>
+                          
+                        </div>
+                    </td>
+                    <td>
+                        <a class="badge bg-color1 text-dark">
+                            <i class="fa-solid fa-pencil "></i>
+                        </a>
+                        <a class="badge bg-color1 text-dark">
+                            <i class="fa-solid fa-trash"></i>
+                        </a>
+                    </td>
+
+
+                </tr>
+                    i = i + 1;
+                }
+            </table>
+        </div>
+    </div>
+</div>
+
